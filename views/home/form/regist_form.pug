@@ -1,0 +1,107 @@
+form(role='form', id="camp-regist-form")
+    input(type='text', class='d-none', id='campIdx', value=campIdx)
+    table(class='table form-table')
+        tbody 
+            tr
+                th(class='label border-0') 아이디
+                    span(class='text-danger') *
+                td(class='border-0')
+                    div(class='row')
+                        div(class='col-sm-6')
+                            div(class='form-group')
+                                input(type='text', class='form-control', data-required="true", data-empty="캠핑장 명을", value=campAdminInfo?campAdminInfo.camp_admin_id:null, disabled)
+                        div(class='col-sm-6')
+                            div(class='form-group')
+                                button(type="button", class='btn btn-primary', id="changePwdBtn") 비밀번호 변경
+                                button(type="button", class='btn btn-warning ml-2', id="changePwdBtn") 초기화
+                td(class='border-0', rowspan='3')
+                    div(class='float-right')
+                        div(class='camp-img-container')
+                            div(class='img-preview')
+                                img(src=campAdminInfo && campAdminInfo.biz_cert?campAdminInfo.biz_cert:'/images/image_not_found.svg', alt='camp-img', id='campImgPreview')
+                                div(class='img-label') 사업자등록증
+                            button(type='button', class='btn btn-default mt-2', id='addCampImgBtn') 등록
+                            div(class='form-group')
+                                input(type='file', class='d-none', accept='.jpg, .jpeg, .png', name='repr_img', id='repr_img', data-empty='캠핑장 대표이미지를', data-required=!campAdminInfo?"true":campAdminInfo && campAdminInfo.biz_cert===null?"true":"false")
+                        div(class='camp-img-container ml-5')
+                            div(class='img-preview')
+                                img(src=campAdminInfo && campAdminInfo.camp_reg_cert?campAdminInfo.camp_reg_cert:'/images/image_not_found.svg', alt='camp-map-img', id='campMapPreview')
+                                div(class='img-label') 관광사업(야영장) 등록증
+                            button(type='button', class='btn btn-default mt-2', id='addCampMapBtn') 등록
+                            div(class='form-group')
+                                input(type='file', class='d-none', accept='.jpg, .jpeg, .png', name='loc_img', id='loc_img' data-empty='캠핑장 위치이미지를', data-required=!campAdminInfo?"true":campAdminInfo && campAdminInfo.camp_reg_cert===null?"true":"false")
+            tr
+                th(class='label') 대표자명
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', value=campAdminInfo?campAdminInfo.repr_name:null, disabled)
+            tr
+                th(class='label') 사업자명
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', value=campAdminInfo?campAdminInfo.biz_name:null, disabled)
+            tr
+                th(class='label') 사업자등록번호
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control',value=campAdminInfo?campAdminInfo.repr_num:null, disabled)
+            tr
+                th(class='label') 대표자 이메일
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', data-required="true", data-empty="대표자 이메일을", value=campAdminInfo?campAdminInfo.repr_email:null)
+            tr
+                th(class='label') 대표자 전화번호
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', data-required="true", data-empty="대표자 전화번호를", value=campAdminInfo?campAdminInfo.repr_num:null)
+            tr
+                th(class='label') 정산은행
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', data-required="true", data-empty="정산은행을", value=campAdminInfo?campAdminInfo.stlmt_bank:null)
+            tr
+                th(class='label') 정산계좌번호
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', data-required="true", data-empty="정산계좌번호를", value=campAdminInfo?campAdminInfo.acc_num:null)
+            tr
+                th(class='label') 정산예금주
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', name="acc_num" ,ldata-required="true", data-empty="정산예금주를", value=campAdminInfo?campAdminInfo.acc_name:null)
+            tr
+                th(class='label') 관광사업(야영장)등록번호
+                    span(class='text-danger') *
+                td
+                    div(class='row')
+                        div(class='col-sm-8')
+                            div(class='form-group')
+                                input(type='text', class='form-control', value=campAdminInfo?campAdminInfo.biz_num:null, disabled)
+                                
+    //- .table                                    
+//- .form

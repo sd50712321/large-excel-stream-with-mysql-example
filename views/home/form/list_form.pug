@@ -1,0 +1,31 @@
+form(role='form', id="list-form")    
+    table(class='table form-table')
+        tbody
+            tr
+                th(class='label border-0') 캠지기 정보
+                td(class='border-0')
+                    div(class='row form-group')
+                        div(class='col-sm-2')                            
+                            select(class='custom-select', name='select_filter')
+                                option(value="") 선택
+                                option(value="3") 사업자명
+                                option(value="2") 대표자명
+                                option(value="6") 대표자 전화번호
+                                option(value="1") 캠지기아이디
+                        div(class='col-sm-4')                            
+                            input(type='text', class='form-control', name="select_info")
+            tr
+                th(class='label') 캠핑 구분
+                td
+                    div(class='row')
+                        div(class='col-sm-12')
+                            div(class='form-group')
+                                div(class='form-check d-inline mr-5')
+                                    input(type='radio', class='form-check-input', id='category-0', name=`auth_or_not`, value="all" checked)
+                                    label(class='form-check-label', for='category-0') 전체
+                                div(class='form-check d-inline mr-5')
+                                    input(type='radio', class='form-check-input', id='category-1', name=`auth_or_not`, value="N")
+                                    label(class='form-check-label', for='category-1') 입점대기
+                                div(class='form-check d-inline mr-5')
+                                    input(type='radio', class='form-check-input', id='category-2', name=`auth_or_not`, value="Y")
+                                    label(class='form-check-label', for='category-2') 입점완료

@@ -1,0 +1,64 @@
+extends ../layout
+
+block append content
+    div(class='content-wrapper')
+        include ../includes/content_header.pug
+
+        div(class='content')
+            div(class='container-fluid')
+                div(class='row')
+                    div(class='col-md-12')
+                        div(class='card card-secondary')
+                            div(class='card-header')
+                                h3(class='card-title') 조회
+                                div(class='card-tools')
+                                    button(type='button', class='btn btn-tool', data-card-widget='collapse', data-toggle='tooltip', title='Collapse')
+                                        i(class='fas fa-minus')
+                            //- .card-header
+                            div(class='card-body scroll-container')                            
+                                include ./form/list_form.pug
+                            //- .card-body
+                            div(class='card-footer text-center')
+                                button(type='button', class='btn btn-primary', id='searchBtn') 조회
+                                button(type='button', class='btn btn-default ml-2', id='resetBtn') 초기화
+                            //- .card-footer
+                div(class='row')
+                    div(class='col-md-12')
+                        div(class='card card-secondary')
+                            div(class='card-header')
+                                h3(class='card-title') 캠핑장 관리
+                                div(class='card-tools')
+                                    button(type='button', class='btn btn-tool', data-card-widget='collapse', data-toggle='tooltip', title='Collapse')
+                                        i(class='fas fa-minus')
+                            //- .card-header
+                            div(class='card-body scroll-container')
+                                div(class='button-group float-right')
+                                    button(type='button', class='btn btn-default', id="allCheckedBtn") 일괄 선택
+                                    button(type='button', class='btn btn-default ml-2', id="allUnCheckedBtn") 선택 해제
+                                    button(type='button', class='btn btn-default ml-2', id="resvPossBtn") 예약 가능
+                                    button(type='button', class='btn btn-default ml-2', id="resvPausedBtn") 운영 중단
+                                table(class='table table-bordered table-striped', id="dataTable")
+                                    thead
+                                        tr
+                                            th 선택
+                                            th 아이디
+                                            th 대표자명
+                                            th 사업자명
+                                            th 사업자 등록번호
+                                            th 이메일
+                                            th 대표자 전화번호
+                                            th 정산은행
+                                            th 정산 계좌번호
+                                            th 정산 예금주
+                                            th 입점 신청일
+                                            th 입점 상태
+                                            th Action
+                                    tbody   
+                            //- .card-body
+                        //- .card
+                    //- .col-md-12
+                //- .row
+            //- .content-fluid
+        //- .content                                                        
+append scripts
+    include ./scripts/list_script.pug

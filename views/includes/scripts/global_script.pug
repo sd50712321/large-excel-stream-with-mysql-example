@@ -1,0 +1,307 @@
+//- global script
+script.
+    $(document).ready(function(){
+        function curTimer(){
+            let newDate = new Date()
+            let hours = newDate.getHours()
+            let minutes = newDate.getMinutes()
+            const curTime = minutes<10?`${hours}:0${minutes}`:`${hours}:${minutes}`
+            return curTime
+        }
+        $('#currentTimer').html(curTimer());
+        setInterval(()=>{
+            $('#currentTimer').html(curTimer());
+        },1000)
+    })
+
+    // mobile regex
+    const regexMobile = /^(01[16789]{1}|02|050.{1}|0[3-9]{1}[0-9]{1})-?[0-9]{3,4}-?[0-9]{4}$/
+    const regexNumber = /^[0-9]+$/
+    const regexId = /^(?=.*?[a-z])^(?=.*?\d)/
+
+    //- alert setting    
+    const Toast = Swal.mixin({   
+        //- toast: true,
+        //- position: 'top-end',
+        showConfirmButton: false,
+        timer: 2000
+    });
+    const Confirm = Swal.mixin({        
+        showConfirmButton: true,
+        //- showCloseButton: true,
+        focusDeny:true,
+        showCancelButton: true,
+        confirmButtonText: '확인',
+        cancelButtonText: '취소',
+        customClass: {
+            confirmButton: 'btn btn-primary btn-lg',
+            cancelButton: 'btn btn-default btn-lg ml-2'
+        },
+        buttonsStyling: false
+    });
+    //- date range picker
+    $('input[name="date-range-picker"]').daterangepicker({
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    });
+    //- month range picker
+    $('input[name="month-range-picker"]').daterangepicker({
+        showDropdowns: true,
+        viewMode: "months", 
+        locale: {
+            format: 'MM',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    });
+    //- month-day range picker
+    $('input[name="month-day-range-picker"]').daterangepicker({
+        showDropdowns: true,
+        viewMode: "months", 
+        locale: {
+            format: 'MM-DD',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    });
+    //- single date range picker
+    $('input[name="single-range-picker"]').daterangepicker({
+        singleDatePicker: true,
+        showDropdowns: true,
+        locale: {
+            format: 'YYYY-MM-DD',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    });
+    //- time range picker
+    $('input[name="time-range-picker"]').daterangepicker({
+        timePicker : true,
+        timePicker24Hour : true,
+        timePickerIncrement : 1,
+        //- timePickerSeconds : true,        
+        locale : {
+            format : 'HH:mm',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    }).on('show.daterangepicker', function(ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+    //- time picker
+    $('input[name="single-time-picker"]').daterangepicker({
+        singleDatePicker: true,
+        timePicker : true,
+        timePicker24Hour : true,
+        timePickerIncrement : 1,
+        //- timePickerSeconds : true,        
+        locale : {
+            format : 'HH:mm',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+    }).on('show.daterangepicker', function(ev, picker) {
+        picker.container.find(".calendar-table").hide();
+    });
+    //- 초기화 버튼
+    $('#resetBtn').on('click', function(ev) {
+        window.location.reload();
+    });
+
+    $('input[name="dateChange"]').click(function(e){
+        e.preventDefault()
+        const btnval = this.value
+        console.log('btnval',btnval)
+        const locale = {
+            format: 'YYYY-MM-DD',
+            applyLabel: '입력',
+            cancelLabel: '닫기'
+        }
+        const pickerName = $('input[name="date-range-picker"]')
+        switch(btnval){
+            case 'yesterday':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(1,'days'),
+                    endDate:moment().subtract(1,'days'),
+                })
+            break
+            case 'today':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment(),
+                    endDate:moment(),
+                })
+            break
+            case 'three':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(3,'days'),
+                    endDate:moment(),
+                })
+            break
+            case 'week':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(7,'days'),
+                    endDate:moment(),
+                })
+            break
+            case 'month':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(1,'months'),
+                    endDate:moment(),
+                })
+            break
+            case 'threeMonth':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(3,'months'),
+                    endDate:moment(),
+                })
+            break
+            case 'curMonth':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().format('YYYY-MM-dd'),
+                    endDate:moment().format(),
+                })
+                break
+            case 'lastMonth':
+                pickerName.daterangepicker({
+                    locale,
+                    startDate:moment().subtract(1,'months').startOf('month'),
+                    endDate:moment().subtract(1,'months').endOf('month'),
+                })
+            break
+            case 'all':
+                pickerName.val('')
+            default:
+        }
+    })
+
+    //validation
+    function null_validation(form_id){
+        //- console.log('formId',form_id)
+
+        let result = true
+
+        //input validate
+        $('#'+form_id).find('input').each(function(){
+            //- console.log('this',$(this))
+            if(($(this).val() == "" || $(this).val()==null) && $(this).attr('data-required')=="true"){
+                
+                Toast.fire({
+                    icon: 'error',
+                    title: $(this).attr('data-full')=="true"?`${$(this).data("empty")}`:`${$(this).data("empty")} 입력해주세요`,
+                    onAfterClose: () => $(this).focus()
+                })
+                
+                result = false
+                return false
+            }
+        })
+
+        //select validate
+        $('#'+form_id).find('select').each(function(){
+            if(($(this).val() == "" || $(this).val()==null) && $(this).attr('data-required')=="true"){
+
+                Toast.fire({
+                    icon: 'error',
+                    title: `${$(this).data("empty")} 선택해주세요`,
+                    onAfterClose: () => $(this).focus()
+                })
+                
+                result = false
+                return false
+            }
+        })
+
+        //textarea validation
+        if(result){
+            $('#'+form_id).find('textarea').each(function(){
+                //- console.log('val',$(this).val())
+                //- console.log('required',$(this).data('required'))
+                //- console.log('empty',$(this).data('empty'))
+                if(($(this).val() == "" || $(this).val()==null) && $(this).attr('data-required')=="true"){
+                    Toast.fire({
+                        icon: 'error',
+                        title: `${$(this).data("empty")} 입력해주세요`,
+                        onAfterClose: () => $(this).focus()
+                    })
+
+                    result = false
+                    return false
+                }
+            })
+        }
+
+        if(result){
+            $('#'+form_id).find('select').each(function(){
+                //- console.log('val',$(this).val())
+                //- console.log('required',$(this).data('required'))
+                //- console.log('empty',$(this).data('empty'))
+                if($(this).val() == "" && $(this).attr('data-required')=="true"){
+                    Toast.fire({
+                        icon: 'error',
+                        title: `${$(this).data("empty")} 입력해주세요`,
+                        onAfterClose: () => $(this).focus()
+                    })
+                    
+                    result = false
+                    return false
+                }
+            })
+        }
+
+        return result
+    }
+
+    $('#set_chk_or_not').on('change',function(){
+
+        utilGetDataByAPI(`/home/setchk`,function(res){
+            console.log('res',res)
+            if(res.result==true){
+                return Toast.fire({
+                    icon: 'success',
+                    title: `초기 설정이 완료되었습니다`
+                }).then(()=>{window.location.assign('/home/main')})
+            }else{
+                if(res.errorMessage == "Sms not registered"){
+                    return Toast.fire({
+                        icon: 'error',
+                        title: `sms 설정이 필요합니다`
+                    }).then(()=>{
+                        $('#set_chk_or_not').prop('checked',false)
+                    })
+                }else if(res.errorMessage == "Camp not registered"){
+                    return Toast.fire({
+                        icon: 'error',
+                        title: `캠핑장 설정이 필요합니다`
+                    }).then(()=>{
+                        $('#set_chk_or_not').prop('checked',false)
+                    })
+                }else if(res.errorMessage == "CampRoom not registered"){
+                    return Toast.fire({
+                        icon: 'error',
+                        title: `캠핑장 사이트 설정이 필요합니다`
+                    }).then(()=>{
+                        $('#set_chk_or_not').prop('checked',false)
+                    })
+                }else{
+                    return Toast.fire({
+                        icon: 'error',
+                        title: `네트워크 에러입니다`
+                    }).then(()=>{
+                        $('#set_chk_or_not').prop('checked',false)
+                    })
+                }
+                
+            }
+        })
+    })
